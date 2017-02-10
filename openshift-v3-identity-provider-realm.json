@@ -19,7 +19,8 @@
       ],
       "realmRoles": [ "user","admin" ],
       "clientRoles": {
-        "realm-management": [ "realm-admin" ]
+        "realm-management": [ "realm-admin"],
+        "broker": ["read-token"]
       }
     }
   ],
@@ -42,7 +43,8 @@
         "/openshift-v3-authentication/*"
       ],
       "webOrigins": [
-        "http://localhost:8080"
+        "http://keycloak-keycloak.192.168.42.118.xip.io/",
+        "http://192.168.42.118:8443/"
       ]
     }
   ],
@@ -55,7 +57,7 @@
       "storeToken" : "true",
       "addReadTokenRoleOnCreate" : true,
       "config": {
-        "clientId": "alm",
+        "clientId": "openshift-v3-authentication",
         "clientSecret": "1234"
       }
     }
