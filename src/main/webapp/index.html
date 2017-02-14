@@ -13,7 +13,7 @@
     <script src="js/app.js" type="text/javascript"></script>
 </head>
 
-<body data-ng-controller="SocialCtrl">
+<body data-ng-controller="OpenshiftCtrl">
 
 <div id="content-area" class="col-md-9" role="main">
     <div id="content">
@@ -31,14 +31,16 @@
         </div>
         <div>
             <p>
-                <button type="submit" data-ng-click="loadSocialProfile()">Load your social profile</button>
+                <button type="submit" data-ng-click="loadProfile()">Load your OpenShift profile</button>
             </p>
 
-            <div data-ng-show="socialProfile">
+            <div data-ng-show="profile">
                 <p><b>This is your OpenShift 3 Profile</b>:</p>
                 <p>
                 <ul>
-
+                    <li><b>Id</b>: {{profile.uid}}</li>
+                    <li><b>Name</b>: {{profile.name}}</li>
+                    <li><b>Self Link</b>: {{profile.selfLink}}</li>
                 </ul>
                 </p>
             </div>

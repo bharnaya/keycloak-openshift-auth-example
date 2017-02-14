@@ -92,7 +92,7 @@ angular.element(document).ready(function () {
     });
 });
 
-module.controller('SocialCtrl', function ($scope, $http, $location, Auth) {
+module.controller('OpenshiftCtrl', function ($scope, $http, $location, Auth) {
 
     $scope.logout = function () {
         Auth.logout();
@@ -100,11 +100,18 @@ module.controller('SocialCtrl', function ($scope, $http, $location, Auth) {
 
     $scope.identity = Auth.getIdentity();
 
-    $scope.loadSocialProfile = function () {
-        $http.get('/auth/realms/openshift-v3-identity-provider-realm/broker/openshift-v3/token').success(function (data) {
-            var accessTokenParameter = 'access_token=';
-            var accessToken = data.substring(data.indexOf(accessTokenParameter) + accessTokenParameter.length, data.indexOf('&'));
-            // TODO fetch profile
+    $scope.loadProfile = function () {
+        $http.get('/auth/realms/openshift-v3-identity-provider-realm/broker/openshift-v3/token?client_id=openshift-v3-authentication').success(function (data) {
+            console.log(data);
+            $http({method: 'GET', url: 'http://localhost:9009/oapi/v1/users/~', headers: {
+                'Authorization': 'Bearer ' + data.access_token }
+            }).success(function(profile) {
+                $scope.profile = profile.metadata;
+            })
+            .error(function(data, status, headers, config) {
+                $scope.profile = 'Could not obtain social profile. Trying to refresh your token.';
+                Auth.refreshToken();
+            });
         });
     }
 });
