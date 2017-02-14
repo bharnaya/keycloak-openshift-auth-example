@@ -1,19 +1,25 @@
 # openshift-insecure-proxy
 
-Proxy to tackle self-signed SSL certificate in minishift
+Proxy to bypass self-signed SSL certificates in minishift.
 
-[![build status](https://secure.travis-ci.org/bartoszmajsak/openshift-insecure-proxy.png)](http://travis-ci.org/bartoszmajsak/openshift-insecure-proxy)
-
-## Installation
-
-This module is installed via npm:
-
-``` bash
-$ npm install openshift-insecure-proxy
-```
+You should have [minishift](https://github.com/minishift/minishift#installation) installed first.
 
 ## Example Usage
 
-``` js
-var openshiftInsecureProxy = require('openshift-insecure-proxy');
+``` 
+$ npm start -- --targetHost=$(minishift ip) --targetPort=8443 
 ```
+
+or
+
+```
+node proxy.js --targetHost=$(minishift ip) --targetPort=8443  
+```
+
+### Docker container
+
+```
+docker run --net=host -p 9009:9009 bartoszmajsak/minishift-ignore-cert-proxy \
+--targetHost=$(minishift ip) --targetPort=8443
+```
+
