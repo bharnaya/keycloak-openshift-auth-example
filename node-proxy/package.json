@@ -1,0 +1,24 @@
+{
+  "name": "openshift-insecure-proxy",
+  "version": "1.0.0",
+  "description": "Proxy to tackle self-signed SSL certificate in minishift",
+  "main": "index.js",
+  "scripts": {
+    "start": "node proxy.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bartoszmajsak/openshift-insecure-proxy"
+  },
+  "keywords": [
+    "openshift minishift proxy"
+  ],
+  "author": "Bartosz Majsak <bartosz.majsak@gmail.com>",
+  "bugs": {
+    "url": "https://github.com/bartoszmajsak/openshift-insecure-proxy/issues"
+  },
+  "dependencies": {
+    "command-line-args": "^4.0.1",
+    "http-proxy": "^1.16.2"
+  }
+}
