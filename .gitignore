@@ -35,3 +35,6 @@ infinitest.filters
 
 atlassian-ide-plugin.xml
 .autoenv.zsh
+
+# Deployment folder used by oc rsync
+.deployments
