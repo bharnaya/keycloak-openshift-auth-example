@@ -65,4 +65,4 @@ Open demo application:
 google-chrome --incognito http://keycloak-keycloak.$(minishift ip).xip.io/openshift-v3-authentication
 ```
 
-Click on "Openshift V3" and authorize demo app. Then register your user and see 
+Click on "Openshift V3" and authorize demo app. Then register your user. After landing on the dummy page you are able to load Openshift profile by clicking a "load" button.
