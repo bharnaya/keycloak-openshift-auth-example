@@ -17,7 +17,11 @@ cd keycloak-openshift-auth-example/openshift-deploy
 oc new-app -f keycloak_psql_template.json
 ```
 
-Open KeyCloak (e.g. `google-chrome --incognito http://keycloak-keycloak.$(minishift ip).xip.io/auth/admin`) and import realm `openshift-v3-identity-provider-realm.json`.
+Open KeyCloak (e.g. `google-chrome --incognito http://keycloak-keycloak.$(hostname)/auth/admin`). Log in with username 'admin' and password 'changeme123'. You could set this password to something else by changing the enviroment variable KEYCLOAK_PASSWORD in (keycloak_psql_template.json)[https://github.com/devcomb/keycloak-openshift-auth-example/blob/master/openshift-deploy/keycloak_psql_template.json#L21] for future deployments.
+
+Add a new identity provider "Openshift v3" once logged into keycloak. Provide the following information into the form and of course replace the $(hostname) with your hostname.
+
+
 
 Create client
 
