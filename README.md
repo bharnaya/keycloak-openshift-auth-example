@@ -11,9 +11,10 @@ oc new-project keycloak --display-name="Keycloak server" --description="keycloak
 Deploy keycloak and postgres
 
 ```
-pushd ${PWD}/openshift-deploy
+yum install -y git
+git clone https://github.com/devcomb/keycloak-openshift-auth-example.git
+cd keycloak-openshift-auth-example/openshift-deploy
 oc new-app -f keycloak_psql_template.json
-popd
 ```
 
 Open KeyCloak (e.g. `google-chrome --incognito http://keycloak-keycloak.$(minishift ip).xip.io/auth/admin`) and import realm `openshift-v3-identity-provider-realm.json`.
