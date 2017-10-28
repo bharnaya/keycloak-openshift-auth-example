@@ -13,7 +13,7 @@ Deploy keycloak and postgres
 
 ```
 pushd ${PWD}/openshift-deploy
-./deploy.sh
+oc new-app -f keycloak_psql_template.json
 popd
 ```
 
