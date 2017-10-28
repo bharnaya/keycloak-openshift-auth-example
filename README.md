@@ -1,11 +1,10 @@
 ## Set up local enviroment
 
 
-``` 
-minishift start
-```
+Start a OpenShift Origin cluster. Refer to my blog (https://medium.com/@james_devcomb/openshift-on-vps-like-scaleways-with-hostname-4b3ef8942f83)[https://medium.com/@james_devcomb/openshift-on-vps-like-scaleways-with-hostname-4b3ef8942f83] on how to get this setup.
 
 ```
+oc login -u developer
 oc new-project keycloak --display-name="Keycloak server" --description="keycloak server + postgres"
 ```
 
