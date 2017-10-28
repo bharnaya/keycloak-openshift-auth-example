@@ -18,7 +18,7 @@
 		{
 			"description": "Admin password for the keycloak application.",
 			"name": "KEYCLOAK_PASSWORD",
-			"value": ""
+			"value": "changeme123"
 		},
 		{
 			"description": "Specify name of PostgreSQL database.(optional, default is keycloak)",
