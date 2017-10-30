@@ -103,7 +103,7 @@ module.controller('OpenshiftCtrl', function ($scope, $http, $location, Auth) {
     $scope.loadProfile = function () {
         $http.get('/auth/realms/master/broker/openshift-v3/token?client_id=openshift-v3-authentication').success(function (data) {
             console.log(data);
-            $http({method: 'GET', url: 'http://devcomb:9009/oapi/v1/users/~', headers: {
+            $http({method: 'GET', url: 'http://devcomb:8443/oapi/v1/users/~', headers: {
                 'Authorization': 'Bearer ' + data.access_token }
             }).success(function(profile) {
                 $scope.profile = profile.metadata;
