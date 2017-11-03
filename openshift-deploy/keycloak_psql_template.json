@@ -84,7 +84,7 @@
 						"containers": [
 							{
 								"name": "keycloak-server",
-								"image": "registry.centos.org/mohammedzee1000/keycloak-postgres",
+								"image": "devcomb/keycloak-adapter-wildfly",
 								"ports": [
 									{
 										"containerPort": 8080,
