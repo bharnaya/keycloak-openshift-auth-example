@@ -51,7 +51,7 @@
 			"value": "keycloak"
 		},
 		{
-			"description": "Keycloak Application Servicename.(optional, default is keycloak)",
+			"description": "Use HTTPS instead of HTTP",
 			"name": "KEYCLOAK_HTTPS",
 			"value": "true"
 		}
