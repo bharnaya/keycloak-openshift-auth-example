@@ -54,6 +54,11 @@
 			"description": "Use HTTPS instead of HTTP",
 			"name": "KEYCLOAK_HTTPS",
 			"value": "true"
+		},
+		{
+			"description": "Create Che Realm",
+			"name": "KEYCLOAK_CHE",
+			"value": "false"
 		}
 	],
 	"objects": [
