@@ -49,6 +49,16 @@
 			"description": "Keycloak Application Servicename.(optional, default is keycloak)",
 			"name": "SERVICE_NAME",
 			"value": "keycloak"
+		},
+		{
+			"description": "Use HTTPS instead of HTTP",
+			"name": "KEYCLOAK_HTTPS",
+			"value": "false"
+		},
+		{
+			"description": "Create Che Realm",
+			"name": "KEYCLOAK_CHE",
+			"value": "false"
 		}
 	],
 	"objects": [
