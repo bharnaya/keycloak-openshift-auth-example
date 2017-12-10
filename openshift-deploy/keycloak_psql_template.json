@@ -103,6 +103,14 @@
 								],
 								"env": [
 									{
+										"name": "KEYCLOAK_HTTPS",
+										"value": "${KEYCLOAK_HTTPS}"
+									},
+									{
+										"name": "KEYCLOAK_CHE",
+										"value": "${KEYCLOAK_CHE}"
+									},
+									{
 										"name": "KEYCLOAK_USER",
 										"value": "${KEYCLOAK_USER}"
 									},
