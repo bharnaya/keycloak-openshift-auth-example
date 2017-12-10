@@ -1,0 +1,289 @@
+{
+	"kind": "Template",
+	"apiVersion": "v1",
+	"metadata": {
+		"name": "keycloak",
+		"creationTimestamp": null,
+		"annotations": {
+			"description": "Extends the Keycloak to use with PostgreSQL",
+			"tags": "instant-app"
+		}
+	},
+	"parameters": [
+		{
+			"description": "Admin username for the keycloak application.",
+			"name": "KEYCLOAK_USER",
+			"value": "admin"
+		},
+		{
+			"description": "Admin password for the keycloak application.",
+			"name": "KEYCLOAK_PASSWORD",
+			"value": "changeme123"
+		},
+		{
+			"description": "Specify name of PostgreSQL database.(optional, default is keycloak)",
+			"name": "POSTGRES_DATABASE",
+			"value": "keycloak"
+		},
+		{
+			"description": "Specify user for PostgreSQL database.(optional, default is keycloak)",
+			"name": "POSTGRES_USER",
+			"value": "keycloak"
+		},
+		{
+			"description": "Specify user password for PostgreSQL database.(optional, default is keycloak)",
+			"name": "POSTGRES_PASSWORD",
+			"value": "keycloak"
+		},
+		{
+			"description": "Service name for PostgreSQL database server .(optional, default is postgres)",
+			"name": "POSTGRES_PORT_5432_TCP_ADDR",
+			"value": "postgres"
+		},
+		{
+			"description": "Specify port for PostgreSQL database server.(optional, default is 5432)",
+			"name": "POSTGRES_PORT_5432_TCP_PORT",
+			"value": "5432"
+		},
+		{
+			"description": "Keycloak Application Servicename.(optional, default is keycloak)",
+			"name": "SERVICE_NAME",
+			"value": "keycloak"
+		},
+		{
+			"description": "Use HTTPS instead of HTTP",
+			"name": "KEYCLOAK_HTTPS",
+			"value": "true"
+		},
+		{
+			"description": "Create Che Realm",
+			"name": "KEYCLOAK_CHE",
+			"value": "true"
+		}
+	],
+	"objects": [
+		{
+			"kind": "DeploymentConfig",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "keycloak-server",
+				"creationTimestamp": null
+			},
+			"spec": {
+				"strategy": {
+					"type": "Recreate",
+					"resources": {}
+				},
+				"triggers": [
+					{
+						"type": "ConfigChange"
+					}
+				],
+				"replicas": 1,
+				"selector": {
+					"name": "keycloak"
+				},
+				"template": {
+					"metadata": {
+						"creationTimestamp": null,
+						"labels": {
+							"name": "keycloak"
+						}
+					},
+					"spec": {
+						"containers": [
+							{
+								"name": "keycloak-server",
+								"image": "devcomb/keycloak-adapter-wildfly",
+								"ports": [
+									{
+										"containerPort": 8080,
+										"protocol": "TCP"
+									}
+								],
+								"env": [
+									{
+										"name": "KEYCLOAK_USER",
+										"value": "${KEYCLOAK_USER}"
+									},
+									{
+										"name": "KEYCLOAK_PASSWORD",
+										"value": "${KEYCLOAK_PASSWORD}"
+									},
+									{
+										"name": "POSTGRES_DATABASE",
+										"value": "${POSTGRES_DATABASE}"
+									},
+									{
+										"name": "POSTGRES_USER",
+										"value": "${POSTGRES_USER}"
+									},
+									{
+										"name": "POSTGRES_PASSWORD",
+										"value": "${POSTGRES_PASSWORD}"
+									},
+									{
+										"name": "POSTGRES_PORT_5432_TCP_ADDR",
+										"value": "${POSTGRES_PORT_5432_TCP_ADDR}"
+									},
+									{
+										"name": "POSTGRES_PORT_5432_TCP_PORT",
+										"value": "${POSTGRES_PORT_5432_TCP_PORT}"
+									}
+								],
+								"securityContext": {
+									"privileged": false
+								}
+							}
+						],
+						"restartPolicy": "Always",
+						"dnsPolicy": "ClusterFirst"
+					}
+				}
+			}
+		},
+		{
+			"kind": "Service",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "${SERVICE_NAME}",
+				"labels": {
+					"name": "${SERVICE_NAME}"
+				}
+			},
+			"spec": {
+				"ports": [
+					{
+						"protocol": "TCP",
+						"port": 8080,
+						"targetPort": 8080,
+						"nodePort": 0
+					}
+				],
+				"selector": {
+					"name": "keycloak"
+				},
+				"type": "ClusterIP",
+				"sessionAffinity": "None"
+			}
+		},
+		{
+			"kind": "Route",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "keycloak"
+			},
+			"spec": {
+        "tls": {
+					"insecureEdgeTerminationPolicy": "Allow",
+					"termination": "edge"
+        },
+				"host": "",
+				"to": {
+					"kind": "Service",
+					"name": "${SERVICE_NAME}"
+				}
+			}
+		},
+		{
+			"apiVersion": "v1",
+			"kind": "PersistentVolumeClaim",
+			"metadata": {
+				"name": "storage0"
+			},
+			"spec": {
+				"accessModes": [
+					"ReadWriteOnce"
+				],
+				"resources": {
+					"requests": {
+						"storage": "1Gi"
+					}
+				}
+			}
+		},
+		{
+			"kind": "Service",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "postgres",
+				"labels": {
+					"name": "postgres"
+				}
+			},
+			"spec": {
+				"ports": [
+					{
+						"name": "${POSTGRES_PORT_5432_TCP_ADDR}",
+						"protocol": "TCP",
+						"port": 5432,
+						"targetPort": 5432,
+						"nodePort": 0
+					}
+				],
+				"selector": {
+					"name": "postgres"
+				},
+				"type": "ClusterIP",
+				"sessionAffinity": "None"
+			}
+		},
+		{
+			"kind": "Pod",
+			"apiVersion": "v1",
+			"metadata": {
+				"name": "postgres",
+				"labels": {
+					"name": "postgres"
+				}
+			},
+			"spec": {
+				"containers": [
+					{
+						"name": "postgres",
+						"image": "registry.centos.org/sclo/postgresql-95-centos7:latest",
+						"ports": [
+							{
+								"containerPort": 5432,
+								"protocol": "TCP"
+							}
+						],
+						"env": [
+							{
+								"name": "POSTGRESQL_USER",
+								"value": "${POSTGRES_USER}"
+							},
+							{
+								"name": "POSTGRESQL_PASSWORD",
+								"value": "${POSTGRES_PASSWORD}"
+							},
+							{
+								"name": "POSTGRESQL_DATABASE",
+								"value": "${POSTGRES_DATABASE}"
+							},
+							{
+								"name": "POSTGRESQL_ADMIN_PASSWORD",
+								"value": "password"
+							}
+						],
+						"volumeMounts": [
+							{
+								"mountPath": "/var/lib/pgsql/data",
+								"name": "pgdata",
+								"readOnly": false
+							}
+						]
+					}
+				],
+				"volumes": [
+					{
+						"name": "pgdata",
+						"persistentVolumeClaim": {
+							"claimName": "storage0"
+						}
+					}
+				]
+			}
+		}
+	]
+}
