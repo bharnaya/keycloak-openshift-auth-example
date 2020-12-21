@@ -94,7 +94,7 @@
 						"containers": [
 							{
 								"name": "keycloak-server",
-								"image": "devcomb/keycloak-adapter-wildfly",
+								"image": "registry.ixpress.icicibank.com:5000/keycloak/keycloak-adapter-wildfly:latest",
 								"ports": [
 									{
 										"containerPort": 8080,
@@ -196,6 +196,7 @@
 				"name": "storage0"
 			},
 			"spec": {
+				"storageClassName":  "managed-nfs-storage",
 				"accessModes": [
 					"ReadWriteOnce"
 				],
@@ -245,7 +246,7 @@
 				"containers": [
 					{
 						"name": "postgres",
-						"image": "registry.centos.org/sclo/postgresql-95-centos7:latest",
+						"image": "registry.ixpress.icicibank.com:5000/keycloak/postgresql-95-centos7",
 						"ports": [
 							{
 								"containerPort": 5432,
