@@ -406,6 +406,7 @@ objects:
   spec:
     accessModes:
       - ReadWriteOnce
+    storageClassName:  managed-nfs-storage
     resources:
       requests:
         storage: "${MONGODB_VOL_SIZE}"
