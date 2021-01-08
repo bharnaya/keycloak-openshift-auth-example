@@ -182,7 +182,7 @@
 				"name": "keycloak"
 			},
 			"spec": {
-				"host": "",
+				"host": "keycloak.apps.nonprod.iciciltd.com",
 				"to": {
 					"kind": "Service",
 					"name": "${SERVICE_NAME}"
